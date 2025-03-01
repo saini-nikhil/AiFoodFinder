@@ -36,7 +36,7 @@ function RestaurantMap({
     };
   }, [goMapsApiKey, setMapLoaded]);
 
-  // Initialize map and find nearby restaurants when location is available and map is loaded
+  // Initialize map and find nearby restaurants when location is available and map  loaded
   useEffect(() => {
     if (location && mapLoaded && mapContainerRef.current) {
       try {
