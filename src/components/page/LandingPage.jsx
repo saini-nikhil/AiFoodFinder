@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentFeature, setCurrentFeature] = useState(0);
+  const navigate = useNavigate()
   
   // Features to showcase
   const features = [
@@ -101,7 +103,7 @@ const LandingPage = () => {
               <p className="mt-6 text-lg text-gray-600 max-w-lg">
                 Discover restaurants tailored to your taste with our voice-activated AI assistant. Simply ask and find your next favorite meal.
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+              <div onClick={() => navigate("./VoiceRestaurantAssistant5")} className="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                 <button className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 font-medium">
                   Try Now
                 </button>
@@ -114,9 +116,9 @@ const LandingPage = () => {
             <div className="md:w-1/2 mt-12 md:mt-0">
               <div className="relative">
                 {/* Phone mockup */}
-                <div className="w-80 h-auto mx-auto relative z-10">
+                <div>
                   <div className="rounded-3xl overflow-hidden border-8 border-gray-800 shadow-2xl">
-                    <img src="/api/placeholder/400/800" alt="App Interface" className="w-full h-full object-cover" />
+                    <img src="https://media.gettyimages.com/id/1331919924/photo/technology-makes-life-so-much-easier-for-young-asian-woman-using-mobile-app-device-on.jpg?b=1&s=2048x2048&w=0&k=20&c=KfY4IgcA-DRifFoeHEJMArplxVsX0P9n95bA0eP52A0=" alt="App Interface" className="w-full h-full object-cover" />
                     {/* Voice animation overlay */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center animate-pulse">
@@ -128,8 +130,7 @@ const LandingPage = () => {
                   </div>
                   
                   {/* Decorative elements */}
-                  <div className="absolute -top-6 -right-6 w-24 h-24 bg-purple-100 rounded-full blur-xl opacity-80"></div>
-                  <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-indigo-100 rounded-full blur-xl opacity-80"></div>
+                  
                 </div>
               </div>
             </div>
@@ -255,8 +256,8 @@ const LandingPage = () => {
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Discover Amazing Food?</h2>
               <p className="text-indigo-100 text-lg mb-8">Join thousands of food lovers who are discovering new restaurants every day with FoodFinder.</p>
-              <button className="px-8 py-4 bg-white text-indigo-700 rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
-                Download Now
+              <button onClick={() => navigate("./VoiceRestaurantAssistant5")} className="px-8 py-4 bg-white text-indigo-700 rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
+                Try Now
               </button>
             </div>
           </div>
