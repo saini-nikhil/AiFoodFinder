@@ -7,18 +7,20 @@ function RestaurantMap({
   nearbyRestaurants, 
   setNearbyRestaurants, 
   setResponse, 
-  goMapsApiKey,
+  gmapsApiKey,
   selectedRestaurant,
   setSelectedRestaurant
 }) {
   const mapContainerRef = useRef(null);
   const inputRef = useRef(null);
   const mapRef = useRef(null);
+  const directionsServiceRef = useRef(null);
+  const directionsRendererRef = useRef(null);
 
-  // Load GoMaps script
+  // Load Google Maps script
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = `https://maps.gomaps.pro/maps/api/js?key=${goMapsApiKey}&libraries=geometry,places&callback=initMap`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${gmapsApiKey}&libraries=places&callback=initMap`;
     script.async = true;
     script.defer = true;
     
@@ -34,9 +36,9 @@ function RestaurantMap({
         document.head.removeChild(script);
       }
     };
-  }, [goMapsApiKey, setMapLoaded]);
+  }, [gmapsApiKey, setMapLoaded]);
 
-  // Initialize map and find nearby restaurants when location is available and map  loaded
+  // Initialize map and find nearby restaurants when location is available and map is loaded
   useEffect(() => {
     if (location && mapLoaded && mapContainerRef.current) {
       try {
@@ -65,13 +67,24 @@ function RestaurantMap({
         
         mapRef.current = newMap;
         
+        // Initialize directions service and renderer
+        directionsServiceRef.current = new window.google.maps.DirectionsService();
+        directionsRendererRef.current = new window.google.maps.DirectionsRenderer({
+          map: newMap,
+          suppressMarkers: false,
+          polylineOptions: {
+            strokeColor: '#4285F4',
+            strokeWeight: 5
+          }
+        });
+        
         // Create a marker for user's location
         new window.google.maps.Marker({
           position: { lat: location.latitude, lng: location.longitude },
           map: newMap,
           title: "Your Location",
           icon: {
-            url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+            url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
             scaledSize: new window.google.maps.Size(40, 40)
           }
         });
@@ -113,86 +126,144 @@ function RestaurantMap({
     }
   }, [location, mapLoaded, setResponse]);
 
+  // Calculate and display directions when a restaurant is selected
+  useEffect(() => {
+    if (selectedRestaurant && location && directionsServiceRef.current && directionsRendererRef.current) {
+      // Request directions from user location to selected restaurant
+      directionsServiceRef.current.route({
+        origin: { lat: location.latitude, lng: location.longitude },
+        destination: selectedRestaurant.position,
+        travelMode: window.google.maps.TravelMode.DRIVING
+      }, (result, status) => {
+        if (status === 'OK') {
+          directionsRendererRef.current.setDirections(result);
+          
+          // Extract route information for display
+          const route = result.routes[0].legs[0];
+          const distanceText = route.distance.text;
+          const durationText = route.duration.text;
+          
+          setResponse(`Directions to ${selectedRestaurant.name}: ${distanceText} away, approximately ${durationText} by car. ${selectedRestaurant.rating} stars. Located at: ${selectedRestaurant.vicinity}`);
+        } else {
+          console.error('Directions request failed: ' + status);
+          setResponse(`Couldn't get directions to ${selectedRestaurant.name}. Error: ${status}`);
+        }
+      });
+    }
+  }, [selectedRestaurant, location, setResponse]);
+
   const fetchNearbyRestaurants = async (mapInstance, userLocation) => {
     try {
-      // Prepare the URL for GoMaps API with dynamic location and parameters
-      const goMapsUrl = `https://maps.gomaps.pro/maps/api/place/nearbysearch/json?keyword=restaurant&location=${userLocation.latitude},${userLocation.longitude}&maxprice=4&minprice=1&opennow=true&radius=2000&type=restaurant&language=en&key=${goMapsApiKey}`;
-  
-      // Make the request
-      const response = await fetch(goMapsUrl);
-      const data = await response.json();
+      // Create a Places Service instance
+      const service = new window.google.maps.places.PlacesService(mapInstance);
       
-      if (data.status === "OK") {
-        // Fixed the photo handling here to avoid the getUrl error
-        const restaurantsList = data.results.slice(0, 10).map(place => {
-          // Create a photo URL directly if available, otherwise use placeholder
-          let photoUrl = '/api/placeholder/200/200';
-          if (place.photos && place.photos.length > 0 && place.photos[0].photo_reference) {
-            // Construct photo URL using photo_reference if available
-            photoUrl = `https://maps.gomaps.pro/maps/api/place/photo?maxwidth=200&photo_reference=${place.photos[0].photo_reference}&key=${goMapsApiKey}`;
+      // Request parameters
+      const request = {
+        location: new window.google.maps.LatLng(userLocation.latitude, userLocation.longitude),
+        radius: 2000,
+        type: 'restaurant',
+        keyword: 'restaurant',
+        openNow: true
+      };
+      
+      // Perform the nearby search
+      service.nearbySearch(request, (results, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+          // Process results
+          const restaurantsList = results.slice(0, 10).map(place => {
+            // Create a photo URL if available, otherwise use placeholder
+            let photoUrl = '/api/placeholder/200/200';
+            if (place.photos && place.photos.length > 0) {
+              photoUrl = place.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 });
+            }
+            
+            return {
+              id: place.place_id,
+              name: place.name,
+              vicinity: place.vicinity,
+              rating: place.rating || "No rating",
+              priceLevel: place.price_level || "Not available",
+              cuisine: place.types ? place.types.filter(type => type !== 'restaurant' && type !== 'establishment').join(', ') : 'Various',
+              position: {
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+              },
+              image: photoUrl
+            };
+          });
+          
+          if (restaurantsList.length === 0) {
+            setResponse("No nearby restaurants found.");
+          } else {
+            setNearbyRestaurants(restaurantsList);
           }
           
-          return {
-            id: place.place_id,
-            name: place.name,
-            vicinity: place.vicinity,
-            rating: place.rating || "No rating",
-            priceLevel: place.price_level || "Not available",
-            cuisine: place.types ? place.types.filter(type => type !== 'restaurant' && type !== 'establishment').join(', ') : 'Various',
-            position: {
-              lat: place.geometry.location.lat,
-              lng: place.geometry.location.lng
-            },
-            image: photoUrl
-          };
-        });
-  
-        if (restaurantsList.length === 0) {
-          setResponse("No nearby restaurants found.");
-        } else {
-          setNearbyRestaurants(restaurantsList);
-        }
-        
-        // Add markers for each restaurant
-        const infoWindow = new window.google.maps.InfoWindow();
-        
-        restaurantsList.forEach(restaurant => {
-          const marker = new window.google.maps.Marker({
-            position: restaurant.position,
-            map: mapInstance,
-            title: restaurant.name,
-            icon: {
-              url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-              scaledSize: new window.google.maps.Size(32, 32)
-            }
+          // Add markers for each restaurant
+          const infoWindow = new window.google.maps.InfoWindow();
+          
+          restaurantsList.forEach(restaurant => {
+            const marker = new window.google.maps.Marker({
+              position: restaurant.position,
+              map: mapInstance,
+              title: restaurant.name,
+              icon: {
+                url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                scaledSize: new window.google.maps.Size(32, 32)
+              }
+            });
+            
+            // Add click listener to marker
+            marker.addListener('click', () => {
+              const content = `
+                <div class="info-window">
+                  <h3 class="font-bold text-lg">${restaurant.name}</h3>
+                  <div class="mt-1">
+                    <span class="text-yellow-500">★</span> ${restaurant.rating}
+                  </div>
+                  <p class="text-gray-600 mt-1">${restaurant.vicinity}</p>
+                  <button id="directions-btn" class="mt-2 px-3 py-1 bg-blue-500 text-white rounded text-sm">Get Directions</button>
+                </div>
+              `;
+              
+              infoWindow.setContent(content);
+              infoWindow.open(mapInstance, marker);
+              
+              // Set selected restaurant
+              setSelectedRestaurant(restaurant);
+              
+              // Add event listener for directions button after the info window is created
+              setTimeout(() => {
+                const directionsBtn = document.getElementById('directions-btn');
+                if (directionsBtn) {
+                  directionsBtn.addEventListener('click', () => {
+                    if (directionsServiceRef.current && directionsRendererRef.current) {
+                      directionsServiceRef.current.route({
+                        origin: { lat: userLocation.latitude, lng: userLocation.longitude },
+                        destination: restaurant.position,
+                        travelMode: window.google.maps.TravelMode.DRIVING
+                      }, (result, status) => {
+                        if (status === 'OK') {
+                          directionsRendererRef.current.setDirections(result);
+                          
+                          // Extract route information
+                          const route = result.routes[0].legs[0];
+                          setResponse(`Directions to ${restaurant.name}: ${route.distance.text} away, approximately ${route.duration.text} by car.`);
+                        }
+                      });
+                    }
+                  });
+                }
+              }, 100);
+            });
           });
           
-          // Add click listener to marker
-          marker.addListener('click', () => {
-            const content = `
-              <div class="info-window">
-                <h3 class="font-bold text-lg">${restaurant.name}</h3>
-                <div class="mt-1">
-                  <span class="text-yellow-500">★</span> ${restaurant.rating}
-                </div>
-                <p class="text-gray-600 mt-1">${restaurant.vicinity}</p>
-              </div>
-            `;
-            
-            infoWindow.setContent(content);
-            infoWindow.open(mapInstance, marker);
-            
-            // Set selected restaurant
-            setSelectedRestaurant(restaurant);
-          });
-        });
-        
-        const welcomeMessage = `Hello! I found ${restaurantsList.length} restaurants near you. You can ask me about specific cuisines or restaurants.`;
-        setResponse(welcomeMessage);
-      } else {
-        console.error("API Error:", data.status, data.error_message);
-        setResponse(`Sorry, I couldn't find nearby restaurants. Error: ${data.status}`);
-      }
+          const welcomeMessage = `Hello! I found ${restaurantsList.length} restaurants near you. You can ask me about specific cuisines or restaurants.`;
+          setResponse(welcomeMessage);
+        } else {
+          console.error("Places API Error:", status);
+          setResponse(`Sorry, I couldn't find nearby restaurants. Error: ${status}`);
+        }
+      });
     } catch (error) {
       console.error("Error fetching restaurants:", error);
       setResponse(`Sorry, I couldn't find nearby restaurants. Error: ${error.message}`);
@@ -236,6 +307,74 @@ function RestaurantMap({
             </svg>
             Please enable location services to find nearby restaurants
           </p>
+        </div>
+      )}
+      
+      {/* Directions info */}
+      {selectedRestaurant && (
+        <div className="mt-4 p-3 bg-indigo-50 text-indigo-700 rounded-lg">
+          <div className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 3a1 1 0 00-1 1v1.586L5.707 4.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L10 5.586V4a1 1 0 00-1-1z" clipRule="evenodd" />
+              <path d="M10 12a1 1 0 00-1 1v4a1 1 0 102 0v-4a1 1 0 00-1-1z" />
+            </svg>
+            <p>Directions to <strong>{selectedRestaurant.name}</strong> shown on map</p>
+          </div>
+          <div className="mt-2 flex space-x-2">
+            <button 
+              className="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 transition-colors"
+              onClick={() => {
+                if (directionsServiceRef.current && directionsRendererRef.current && location) {
+                  directionsServiceRef.current.route({
+                    origin: { lat: location.latitude, lng: location.longitude },
+                    destination: selectedRestaurant.position,
+                    travelMode: window.google.maps.TravelMode.WALKING
+                  }, (result, status) => {
+                    if (status === 'OK') {
+                      directionsRendererRef.current.setDirections(result);
+                      const route = result.routes[0].legs[0];
+                      setResponse(`Walking directions to ${selectedRestaurant.name}: ${route.distance.text}, approximately ${route.duration.text}.`);
+                    }
+                  });
+                }
+              }}
+            >
+              Walking
+            </button>
+            <button 
+              className="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 transition-colors"
+              onClick={() => {
+                if (directionsServiceRef.current && directionsRendererRef.current && location) {
+                  directionsServiceRef.current.route({
+                    origin: { lat: location.latitude, lng: location.longitude },
+                    destination: selectedRestaurant.position,
+                    travelMode: window.google.maps.TravelMode.DRIVING
+                  }, (result, status) => {
+                    if (status === 'OK') {
+                      directionsRendererRef.current.setDirections(result);
+                      const route = result.routes[0].legs[0];
+                      setResponse(`Driving directions to ${selectedRestaurant.name}: ${route.distance.text}, approximately ${route.duration.text}.`);
+                    }
+                  });
+                }
+              }}
+            >
+              Driving
+            </button>
+            <button 
+              className="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 transition-colors"
+              onClick={() => {
+                if (directionsServiceRef.current && directionsRendererRef.current && location) {
+                  directionsRendererRef.current.setDirections(null);
+                  mapRef.current.setCenter({ lat: location.latitude, lng: location.longitude });
+                  mapRef.current.setZoom(14);
+                  setResponse(`Showing all nearby restaurants again.`);
+                }
+              }}
+            >
+              Clear Directions
+            </button>
+          </div>
         </div>
       )}
       
