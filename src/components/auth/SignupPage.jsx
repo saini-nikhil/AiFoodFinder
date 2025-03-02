@@ -45,7 +45,7 @@ const SignupPage = () => {
       const user = await signup(name, email, password);
       
       // Registered successfully
-      navigate('/VoiceRestaurantAssistant5'); // Navigate to dashboard or home page after registration
+      navigate('/VoiceRestaurantAssistant'); // Navigate to dashboard or home page after registration
     } catch (error) {
       let errorMessage = 'Failed to register. Please try again.';
       if (error.code === 'auth/email-already-in-use') {

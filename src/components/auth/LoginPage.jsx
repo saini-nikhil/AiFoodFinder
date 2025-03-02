@@ -43,7 +43,7 @@ const LoginPage = () => {
     try {
       await loginWithGoogle();
       // Google sign-in successful
-      navigate('/VoiceRestaurantAssistant5'); // Navigate to protected route after login
+      navigate('/VoiceRestaurantAssistant'); // Navigate to protected route after login
     } catch (error) {
       setError('Google sign-in failed. Please try again.');
     } finally {
