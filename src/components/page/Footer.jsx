@@ -32,24 +32,29 @@ const Footer = () => {
               <h4 className="text-lg font-medium mb-4">Features</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <a href="#" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
+                  <Link to="/VoiceRestaurantAssistant" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
                     Voice Search
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
+                  <Link to="/VoiceRestaurantAssistant" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
                     Restaurant Maps
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
+                  <Link to="/VoiceRestaurantAssistant" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
                     AI Recommendations
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
+                  <Link to="/VoiceRestaurantAssistant" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
                     Directions
-                  </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/AiRecipeGenerator" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
+                  AiRecipeGenerator
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -57,11 +62,7 @@ const Footer = () => {
             <div>
               <h4 className="text-lg font-medium mb-4">Support</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>
-                  <a href="#" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
-                    Help Center
-                  </a>
-                </li>
+                
                 <li>
                   <Link to="/privacy" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
                     Privacy Policy
@@ -75,6 +76,11 @@ const Footer = () => {
                 <li>
                   <Link to="/contact" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
                     Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/chatBot" className="hover:text-indigo-400 hover:translate-x-1 inline-block transform transition-all duration-300 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
+                    Chat Bot
                   </Link>
                 </li>
               </ul>

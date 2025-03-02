@@ -154,7 +154,7 @@ const LandingPage = () => {
               <p className={`mt-6 text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} max-w-lg`}>
                 Discover restaurants tailored to your taste with our voice-activated AI assistant. Simply ask and find your next favorite meal.
               </p>
-              <div onClick={() => navigate("./VoiceRestaurantAssistant5")} className="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+              <div onClick={() => navigate("./VoiceRestaurantAssistant")} className="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                 <button className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 font-medium">
                   Try Now
                 </button>
@@ -304,7 +304,7 @@ const LandingPage = () => {
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Discover Amazing Food?</h2>
               <p className="text-indigo-100 text-lg mb-8">Join thousands of food lovers who are discovering new restaurants every day with FoodFinder.</p>
-              <button onClick={() => navigate("./VoiceRestaurantAssistant5")} className="px-8 py-4 bg-white text-indigo-700 rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
+              <button onClick={() => navigate("./VoiceRestaurantAssistant")} className="px-8 py-4 bg-white text-indigo-700 rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
                 Try Now
               </button>
             </div>

@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import RestaurantMap from "./RestaurantMap";
 import VoiceInterface from "./VoiceInterface";
 import Footer from "./Footer";
-import { ThemeContext } from "./Themecontext"; // Make sure the import path and casing are correct
+import { ThemeContext } from "./Themecontext";
+import { useAuth } from "../auth/Authcontext";
+import Navheader from "./header";
+import LoadingScreen from "./LoadingScreen";
+// Make sure the import path and casing are correct
 
 const VoiceRestaurantAssistant5 = () => {
   const [query, setQuery] = useState("");
@@ -24,6 +28,16 @@ const VoiceRestaurantAssistant5 = () => {
 
   const gmapsApiKey = "AIzaSyDHTUzAPE4mdiY6bKHtghFPEzmOJQUXI6I";
   const geminiApiKey = "AIzaSyDtt9iTVZyMWurYKixqAO4CdfzGNFF3N2g";
+  const { currentUser, logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login");
+    } catch (error) {
+      console.error("Failed to logout", error);
+    }
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -303,19 +317,8 @@ const VoiceRestaurantAssistant5 = () => {
       return false;
     }
   };
-
   if (isLoadingLocation) {
-    return (
-      <div className="fixed inset-0 bg-gradient-to-br from-indigo-500 to-purple-700 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-24 h-24 border-t-4 border-b-4 border-white rounded-full animate-spin mx-auto"></div>
-          <h1 className="text-white text-3xl font-bold mt-6">FoodFinder</h1>
-          <p className="text-indigo-100 mt-2">
-            Discovering delicious dining nearby...
-          </p>
-        </div>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
@@ -326,113 +329,7 @@ const VoiceRestaurantAssistant5 = () => {
           : "bg-gradient-to-b from-indigo-50 to-white"
       } transition-colors duration-300`}
     >
-      <header className="py-4 px-6 bg-white shadow-md sticky top-0 z-20">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center">
-            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-xl">F</span>
-            </div>
-            <h1>
-              <Link
-                className={`text-2xl font-bold ${
-                  theme === "dark" ? "text-indigo-300" : "text-indigo-900"
-                } ml-2`}
-                to="/"
-              >
-                FoodFinder
-              </Link>
-            </h1>
-          </div>
-
-          <div className="hidden md:flex bg-gray-100 rounded-lg p-1">
-            <button
-              onClick={() => setViewMode("split")}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                viewMode === "split"
-                  ? "bg-white shadow-sm text-indigo-700"
-                  : "text-gray-600 hover:text-indigo-600"
-              }`}
-            >
-              Split View
-            </button>
-            <button
-              onClick={() => setViewMode("map")}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                viewMode === "map"
-                  ? "bg-white shadow-sm text-indigo-700"
-                  : "text-gray-600 hover:text-indigo-600"
-              }`}
-            >
-              Map View
-            </button>
-            <button
-              onClick={() => setViewMode("voice")}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                viewMode === "voice"
-                  ? "bg-white shadow-sm text-indigo-700"
-                  : "text-gray-600 hover:text-indigo-600"
-              }`}
-            >
-              Voice View
-            </button>
-          </div>
-
-          <div className="flex items-center space-x-3">
-            {/* Theme Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-full ${
-                theme === "dark" ? "hover:bg-gray-700" : "hover:bg-indigo-100"
-              } transition-colors`}
-              aria-label="Toggle theme"
-            >
-              {theme === "light" ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-indigo-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-yellow-300"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
-              )}
-            </button>
-            <button
-              className={`px-4 py-2 border ${
-                theme === "dark"
-                  ? "border-indigo-400 text-indigo-400 hover:bg-gray-700"
-                  : "border-indigo-600 text-indigo-600 hover:bg-indigo-50"
-              } rounded-lg transition-colors hidden md:block`}
-            >
-              Sign In
-            </button>
-            <button className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
-              Get Started
-            </button>
-          </div>
-        </div>
-      </header>
+      <Navheader viewMode={viewMode} setViewMode={setViewMode} />
 
       <div className="container mx-auto px-4 py-6">
         <div className="mb-8 text-center">
@@ -463,13 +360,25 @@ const VoiceRestaurantAssistant5 = () => {
         </div>
 
         <div className="md:hidden mb-6">
-          <div className="bg-gray-100 rounded-lg p-1 flex">
+          <div
+            className={`${
+              theme === "dark" ? "bg-gray-700" : "bg-gray-100"
+            } rounded-lg p-1 flex`}
+          >
             <button
               onClick={() => setViewMode("split")}
               className={`flex-1 px-2 py-2 rounded-md text-sm font-medium transition-colors ${
                 viewMode === "split"
-                  ? "bg-white shadow-sm text-indigo-700"
-                  : "text-gray-600 hover:text-indigo-600"
+                  ? `${
+                      theme === "dark"
+                        ? "bg-gray-600 text-indigo-300"
+                        : "bg-white text-indigo-700"
+                    } shadow-sm`
+                  : `${
+                      theme === "dark"
+                        ? "text-gray-300 hover:text-indigo-300"
+                        : "text-gray-600 hover:text-indigo-600"
+                    }`
               }`}
             >
               Both
@@ -478,8 +387,16 @@ const VoiceRestaurantAssistant5 = () => {
               onClick={() => setViewMode("map")}
               className={`flex-1 px-2 py-2 rounded-md text-sm font-medium transition-colors ${
                 viewMode === "map"
-                  ? "bg-white shadow-sm text-indigo-700"
-                  : "text-gray-600 hover:text-indigo-600"
+                  ? `${
+                      theme === "dark"
+                        ? "bg-gray-600 text-indigo-300"
+                        : "bg-white text-indigo-700"
+                    } shadow-sm`
+                  : `${
+                      theme === "dark"
+                        ? "text-gray-300 hover:text-indigo-300"
+                        : "text-gray-600 hover:text-indigo-600"
+                    }`
               }`}
             >
               Map
@@ -488,8 +405,16 @@ const VoiceRestaurantAssistant5 = () => {
               onClick={() => setViewMode("voice")}
               className={`flex-1 px-2 py-2 rounded-md text-sm font-medium transition-colors ${
                 viewMode === "voice"
-                  ? "bg-white shadow-sm text-indigo-700"
-                  : "text-gray-600 hover:text-indigo-600"
+                  ? `${
+                      theme === "dark"
+                        ? "bg-gray-600 text-indigo-300"
+                        : "bg-white text-indigo-700"
+                    } shadow-sm`
+                  : `${
+                      theme === "dark"
+                        ? "text-gray-300 hover:text-indigo-300"
+                        : "text-gray-600 hover:text-indigo-600"
+                    }`
               }`}
             >
               Voice

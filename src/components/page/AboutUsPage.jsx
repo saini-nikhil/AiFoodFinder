@@ -78,7 +78,7 @@ const AboutUsPage = () => {
               <div className="mb-12 relative">
                 <div className="w-full h-64 md:h-96 rounded-xl overflow-hidden shadow-lg">
                   <img 
-                    src="/api/placeholder/1200/600" 
+                    src="https://startupsmagazine.co.uk/sites/default/files/2020-11/AdobeStock_291895827ed.jpg" 
                     alt="FoodFinder Team" 
                     className="w-full h-full object-cover"
                   />
@@ -147,24 +147,7 @@ const AboutUsPage = () => {
                 </div>
               </div>
               
-              <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-indigo-300' : 'text-indigo-800'} mt-8 mb-4`}>Meet the Team</h2>
-              <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                Our diverse team brings together expertise in AI, user experience design, and culinary 
-                knowledge. Based across three continents, we share a passion for technology and food.
-              </p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
-                {/* Team Member Cards */}
-                {['CEO & Founder', 'CTO', 'Design Lead'].map((role, index) => (
-                  <div key={index} className={`bg-${theme === 'dark' ? 'gray-900' : 'white'} rounded-xl shadow-md p-6 flex flex-col items-center`}>
-                    <div className={`w-24 h-24 rounded-full ${theme === 'dark' ? 'bg-indigo-700' : 'bg-indigo-200'} mb-4 overflow-hidden`}>
-                      <img src={`/api/placeholder/${100 + index}/100`} alt={role} className="w-full h-full object-cover" />
-                    </div>
-                    <h3 className={`text-lg font-bold ${theme === 'dark' ? 'text-indigo-200' : 'text-indigo-900'}`}>Jane Smith</h3>
-                    <p className={`text-${theme === 'dark' ? 'indigo-400' : 'indigo-600'}`}>{role}</p>
-                  </div>
-                ))}
-              </div>
+            
             </div>
           </div>
         </div>
