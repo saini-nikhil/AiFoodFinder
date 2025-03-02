@@ -1,14 +1,14 @@
 # 🍽️ AI-Powered Voice Assistant for Food Recommendations
 
 ## 🚀 Project Overview
-This is an AI-powered voice assistant that helps users  find the **top 10 or 5  Restaurants ** from nearby Location. For users who prefer homemade food, the assistant suggests AI-generated recipes. Additionally, it includes a **Gemini-powered chatbot** for interactions and **Firebase authentication** for secure user management.
+This is an AI-powered voice assistant that helps users  find the **top 10 or 5  Restaurants ** from nearby Locations. For users who prefer homemade food, the assistant suggests AI-generated recipes. Additionally, it includes a **Gemini-powered chatbot** for interactions and **Firebase authentication** for secure user management.
 
 🛠 **Built in just 48 hours during a Hackathon!**
 
 ---
 
 ## ✨ Features
-✅ **Voice Assistant for Food Suggestions** – Get recommendations for the top 5 food items from nearby restaurants.
+✅ **Voice Assistant for Food Suggestions** – Get recommendations for the top 5 or 10 Restaurants from nearby Locations.
 ✅ **AI Recipe Generator** – Suggests a dish based on available ingredients.
 ✅ **Gemini Chatbot** – Provides interactive support and food-related queries.
 ✅ **Firebase Authentication** – Secure user login & authentication.
