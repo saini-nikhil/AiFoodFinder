@@ -33,7 +33,7 @@ This is an AI-powered voice assistant that helps users  find the **top 10 or 5  
 ## 🚀 Installation & Setup
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/your-username/AiFoodFinder.git
 cd your-repo-name
 ```
 
@@ -78,7 +78,7 @@ This project was developed within **48 hours** as part of a hackathon challenge!
 
 ## 📩 Contact
 If you have any questions or suggestions, feel free to connect:
-📧 Email: your.email@example.com  
+📧 Email: 1nikhilsaini234@gmail.com  
 🔗 LinkedIn: [Your Profile](https://www.linkedin.com/in/nikhilsaini0/)  
 🐙 GitHub: [Your GitHub](https://github.com/saini-nikhil/)
 
