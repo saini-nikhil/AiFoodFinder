@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from './ThemeContext'; // Fixed casing
+import { ThemeContext } from './Themecontext'; // Fixed casing
 import Footer from './Footer';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext'; // Fixed casing
+import { useAuth } from '../auth/Authcontext'; // Fixed casing
 
 const PrivacyPolicyPage = () => {
   const { currentUser, logout } = useAuth();
