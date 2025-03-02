@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from "firebase/auth";
+import { getAuth, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import Footer from '../page/Footer';
-import { auth } from '../firbase/config';
+import { useAuth } from './Authcontext'; // Make sure this path matches your file structure
 
 const SignupPage = () => {
   const [name, setName] = useState('');
@@ -13,9 +13,11 @@ const SignupPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
   const navigate = useNavigate();
   const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
+  const { signup, loginWithGoogle, setCurrentUser } = useAuth();
 
   const validatePassword = () => {
     if (password.length < 8) {
@@ -40,15 +42,10 @@ const SignupPage = () => {
     }
     
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      
-      // Update profile with name
-      await updateProfile(userCredential.user, {
-        displayName: name
-      });
+      const user = await signup(name, email, password);
       
       // Registered successfully
-      navigate('/dashboard'); // Navigate to dashboard or home page after registration
+      navigate('/VoiceRestaurantAssistant5'); // Navigate to dashboard or home page after registration
     } catch (error) {
       let errorMessage = 'Failed to register. Please try again.';
       if (error.code === 'auth/email-already-in-use') {
@@ -69,7 +66,7 @@ const SignupPage = () => {
     setError('');
     
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      await loginWithGoogle();
       // Google sign-up successful
       navigate('/dashboard'); // Navigate to dashboard or home page after registration
     } catch (error) {
@@ -89,7 +86,7 @@ const SignupPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
-      {/* Header - Simplified version */}
+      {/* Header */}
       <header className="pt-6 px-6 z-10 relative">
         <div className="container mx-auto flex justify-between items-center">
           <Link to="/" className="flex items-center">

@@ -14,7 +14,9 @@ function VoiceInterface({
   location,
   geminiApiKey,
   selectedRestaurant,
-  setSelectedRestaurant
+  setSelectedRestaurant,
+  processQuery,
+  searchLocationRestaurants
 }) {
   const recognitionRef = useRef(null);
   const synthesisRef = useRef(window.speechSynthesis);
@@ -198,8 +200,7 @@ function VoiceInterface({
     return "You can ask me about nearby restaurants, specific cuisines, or recommended dishes. What would you like to know?";
   };
 
-
-return (
+  return (
     <div className="flex-1 p-4 flex flex-col">
       <div className="bg-white rounded-lg shadow-lg p-4 flex-1 flex flex-col overflow-hidden">
         <h2 className="text-2xl font-bold mb-4 text-center text-indigo-800">Restaurant Voice Assistant</h2>
@@ -240,7 +241,7 @@ return (
             <p className="text-gray-500">Tap microphone to speak</p>
           )}
         </div>
-  
+
         {/* Text input as fallback */}
         <form onSubmit={handleTextSubmit} className="mb-4">
           <div className="flex items-center">
@@ -264,7 +265,7 @@ return (
             </button>
           </div>
         </form>
-  
+
         {/* Speech examples */}
         <div className="mb-4">
           <h3 className="font-medium text-gray-700 mb-2">Try saying:</h3>
@@ -275,7 +276,7 @@ return (
             <div className="bg-indigo-50 rounded-lg p-3 text-sm text-indigo-700">"Show me closest restaurants"</div>
           </div>
         </div>
-  
+
         {/* Response area */}
         <div className="border border-gray-200 rounded-lg p-4 overflow-y-auto flex-1 bg-indigo-50 mb-4 shadow-inner">
           {response ? (
@@ -320,7 +321,6 @@ return (
       </div>
     </div>
   );
-
 }
 
 export default VoiceInterface;

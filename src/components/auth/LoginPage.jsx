@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import Footer from '../page/Footer';
-import { auth } from '../firbase/config';
+import { useAuth } from './Authcontext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -11,8 +10,7 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const auth = getAuth();
-  const googleProvider = new GoogleAuthProvider();
+  const { login, loginWithGoogle } = useAuth();
 
   const handleEmailLogin = async (e) => {
     e.preventDefault();
@@ -20,9 +18,9 @@ const LoginPage = () => {
     setError('');
     
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      await login(email, password);
       // Signed in successfully
-      navigate('/dashboard'); // Navigate to dashboard or home page after login
+      navigate('/VoiceRestaurantAssistant5'); // Navigate to protected route after login
     } catch (error) {
       let errorMessage = 'Failed to login. Please try again.';
       if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
@@ -43,9 +41,9 @@ const LoginPage = () => {
     setError('');
     
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      await loginWithGoogle();
       // Google sign-in successful
-      navigate('/dashboard'); // Navigate to dashboard or home page after login
+      navigate('/VoiceRestaurantAssistant5'); // Navigate to protected route after login
     } catch (error) {
       setError('Google sign-in failed. Please try again.');
     } finally {
