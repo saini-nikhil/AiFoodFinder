@@ -8,7 +8,7 @@ import { ThemeContext } from './Themecontext';
 import { useAuth } from '../auth/Authcontext';
 import Footer from './Footer';
 
-export default function VoiceRestaurantAssistant() {
+export default function Chatbot() {
   const [messages, setMessages] = useState([
     { role: 'bot', content: 'Hello! I\'m your FoodFinder assistant. Ask me to find restaurants by cuisine, price range, or dish. You can also use voice commands!', timestamp: new Date() }
   ]);
@@ -125,7 +125,7 @@ export default function VoiceRestaurantAssistant() {
         
         // Delay redirect slightly to allow user to see the message
         setTimeout(() => {
-          navigate('/VoiceRestaurantAssistant6'); // Redirect to your detailed page
+          navigate('/VoiceRestaurantAssistant'); // Redirect to your detailed page
         }, 1500);
         
         setIsLoading(false);

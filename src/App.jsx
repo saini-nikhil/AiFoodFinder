@@ -38,9 +38,17 @@ function App() {
                 </PrivateRoute>
               } 
             />
+            <Route 
+              path="/AiRecipeGenerator" 
+              element={
+                <PrivateRoute>
+                  <AiRecipeGenerator />
+                </PrivateRoute>
+              } 
+            />
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
             
-            <Route path="/AiRecipeGenerator" element={<AiRecipeGenerator />} />
+     
             <Route path="/about" element={<AboutUsPage />} />
             <Route path="/terms" element={<TermsOfService />} />
             <Route path="/contact" element={<ContactUs />} />
