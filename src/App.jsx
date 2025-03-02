@@ -2,7 +2,7 @@
 import './App.css'
 import LandingPage from './components/page/LandingPage'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
-import VoiceRestaurantAssistant5 from "./components/page/VoiceRestaurantAssistant"
+
 import PrivacyPolicyPage from './components/page/PrivacyPolicyPage'
 import AboutUsPage from './components/page/AboutUsPage'
 import TermsOfService from './components/page/TermsOfService'
@@ -12,8 +12,8 @@ import LoginPage from "./components/auth/LoginPage"
 import SignupPage from './components/auth/SignupPage'
 import { AuthProvider } from './components/auth/Authcontext'
 import PrivateRoute from './components/auth/Privateroute'
-import { ThemeProvider } from "./components/page/Themecontext"
-import VoiceRestaurantAssistant from './components/new/VoiceRestaurantAssistant'
+import { ThemeProvider } from "./components/ThemeContext/Themecontext"
+import VoiceRestaurantAssistant from './components/page/VoiceRestaurantAssistant'
 import AiRecipeGenerator from './components/page/AiRecipeGenerator'
 import ChatBot from './components/page/Chatbot'
 

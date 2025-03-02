@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from './Footer';
-import { ThemeContext } from './Themecontext'; // Ensure the import path and casing are correct
-import { useAuth } from '../auth/Authcontext'; // Ensure the import path matches your file structure
+import { ThemeContext } from '../ThemeContext/Themecontext'; 
+import { useAuth } from '../auth/Authcontext'; 
 
 const AboutUsPage = () => {
   // Use the ThemeContext correctly

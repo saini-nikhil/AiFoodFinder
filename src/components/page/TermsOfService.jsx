@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from './Footer';
-import { ThemeContext } from './Themecontext'; // Fixed casing
-import { useAuth } from '../auth/Authcontext'; // Fixed casing
+import { ThemeContext } from "../ThemeContext/Themecontext";
+import { useAuth } from '../auth/Authcontext'; 
 
 const TermsOfService = () => {
   // Back to top function

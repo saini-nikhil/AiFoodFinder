@@ -1,5 +1,5 @@
 import React from "react";
-import VoiceInterface from "../page/VoiceInterface";
+import VoiceInterface from "./VoiceInterface";
 
 
 const VoiceSection = ({

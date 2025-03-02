@@ -1,5 +1,5 @@
 import React from "react";
-import RestaurantMap from "../page/RestaurantMap";
+import RestaurantMap from "./RestaurantMap";
 import SuggestedRestaurants from "./SuggestedRestaurants";
 import RestaurantDetails from "./RestaurantDetails";
 

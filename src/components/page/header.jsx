@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ThemeContext } from './Themecontext'; // Fixed casing
+import { ThemeContext } from "../ThemeContext/Themecontext";
 import { useAuth } from '../auth/Authcontext';
 
 const Navheader = ({ viewMode, setViewMode }) => {

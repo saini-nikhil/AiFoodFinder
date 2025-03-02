@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from './Footer';
-import { ThemeContext } from './Themecontext'; // Make sure the import path and casing are correct
+import { ThemeContext } from "../ThemeContext/Themecontext";
 import { useAuth } from '../auth/Authcontext'
 
 const LandingPage = () => {

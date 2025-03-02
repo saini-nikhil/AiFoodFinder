@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 
-import { ThemeContext } from './Themecontext';
+import { ThemeContext } from '../ThemeContext/Themecontext';
 import { useAuth } from '../auth/Authcontext';
 import Footer from './Footer';
 

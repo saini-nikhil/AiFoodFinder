@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from './Footer';
-import { ThemeContext } from './Themecontext';
+import { ThemeContext } from '../ThemeContext/Themecontext';
 import { useAuth } from '../auth/Authcontext';
 import { MessageCircle, ShoppingCart, Loader2 } from 'lucide-react';
 
