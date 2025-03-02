@@ -20,7 +20,7 @@ const LoginPage = () => {
     try {
       await login(email, password);
       // Signed in successfully
-      navigate('/VoiceRestaurantAssistant5'); // Navigate to protected route after login
+      navigate('/VoiceRestaurantAssistant'); // Navigate to protected route after login
     } catch (error) {
       let errorMessage = 'Failed to login. Please try again.';
       if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
