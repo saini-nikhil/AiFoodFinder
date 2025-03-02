@@ -24,11 +24,6 @@ This is an AI-powered voice assistant that helps users  find the **top 10 or 5  
 
 ---
 
-## 📷 Screenshots
-![Uploading image.png…]()
-
-
----
 
 ## 🚀 Installation & Setup
 ### 1️⃣ Clone the repository
