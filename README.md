@@ -74,8 +74,8 @@ This project was developed within **48 hours** as part of a hackathon challenge!
 ## 📩 Contact
 If you have any questions or suggestions, feel free to connect:
 📧 Email: 1nikhilsaini234@gmail.com  
-🔗 LinkedIn: [Your Profile](https://www.linkedin.com/in/nikhilsaini0/)  
-🐙 GitHub: [Your GitHub](https://github.com/saini-nikhil/)
+🔗 LinkedIn: [Profile](https://www.linkedin.com/in/nikhilsaini0/)  
+🐙 GitHub: [GitHub](https://github.com/saini-nikhil/)
 
 ---
 
