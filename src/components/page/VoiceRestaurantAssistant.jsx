@@ -26,8 +26,8 @@ const VoiceRestaurantAssistant = () => {
   const [searchedLocations, setSearchedLocations] = useState([]);
 
   const { theme } = useContext(ThemeContext);
-  const gmapsApiKey = "AIzaSyDHTUzAPE4mdiY6bKHtghFPEzmOJQUXI6I";
-  const geminiApiKey = "AIzaSyDtt9iTVZyMWurYKixqAO4CdfzGNFF3N2g";
+  const gmapsApiKey = import.meta.env.VITE_MAP_API
+  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
 
   useEffect(() => {

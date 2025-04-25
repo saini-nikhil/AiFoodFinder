@@ -30,7 +30,7 @@ const VoiceSection = ({
                     <p className={`text-sm text-indigo-200`}>Ask for what you're craving</p>
                 </div>
                 <div className="p-6">
-                    {/* ... (existing Voice Interface and query display) */}
+                    
                     <div className="mb-6">
                         <div className={`bg-gray-100 rounded-2xl p-6 transition-all ${response ? "opacity-100" : "opacity-70"}`}>
                             <div className="flex items-start">

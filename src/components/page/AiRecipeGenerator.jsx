@@ -78,12 +78,14 @@ const AiRecipeGenerator = () => {
           })
         }
       );
+      //  console.log(response.data)
   
       if (!response.ok) {
         throw new Error(`API error: ${response.status}`);
       }
   
       const data = await response.json();
+      console.log(data)
   
       try {
         // Extract the response text and clean up any markdown syntax
