@@ -27,7 +27,7 @@ const VoiceRestaurantAssistant = () => {
 
   const { theme } = useContext(ThemeContext);
   const gmapsApiKey = import.meta.env.VITE_MAP_API
-  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  const geminiApiKey = import.meta.env.VITE_GEMINI_API;
 
 
   useEffect(() => {
